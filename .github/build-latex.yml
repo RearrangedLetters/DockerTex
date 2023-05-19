@@ -1,0 +1,21 @@
+name: Build Latex Document
+
+on:
+  push:
+    branches:
+      - main  # Trigger this workflow on push event on main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Build Docker Image
+      run: docker build . -t latex-builder
+
+    - name: Compile Latex Document
+      run: |
+        docker run --rm -v $PWD:/workdir latex-builder make
