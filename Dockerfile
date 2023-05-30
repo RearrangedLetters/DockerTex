@@ -7,10 +7,7 @@ RUN apt-get update && apt-get install -y \
     texlive-fonts-recommended \
     texlive-latex-extra \
     texlive-fonts-extra \
-    dvipng \
+    texlive-lang-german \
     git \
-    python-pygments gnuplot \
     make
 
-# Clean up
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
