@@ -13,18 +13,25 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Build LaTeX document
+    - name: Set up build environment
       run: |
         docker run --mount src=$GITHUB_WORKSPACE,target=/repo,type=bind \
             -w /repo \
+            ubuntu:22.04 \
             bash -c 'apt-get update && apt-get install -y \
             texlive-latex-base \
             texlive-latex-recommended \
             texlive-fonts-recommended \
-            textlive-latex-extra \
+            texlive-latex-extra \
             texlive-fonts-extra \
-            texlive-lang-english && \
-            pdflatex -output-directory=/repo main.tex'
+            texlive-lang-english
+
+    - name: Build LaTeX document
+    - run: |
+        docker run --mount src=$GITHUB_WORKSPACE,target=/repo,type=bind \
+            -w /repo \
+            ubuntu:22.04 \
+            pdflatex -output-directory=/repo main.tex
 
     # - name: Fix versions of specific LaTeX packages
     # run: |
