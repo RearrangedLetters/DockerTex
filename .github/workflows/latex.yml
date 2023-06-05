@@ -20,8 +20,9 @@ jobs:
 
       - name: See PDF output
         run: pwd
+             ls -l
              cd /latex/
-             ls -a
+             ls -l
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v2
