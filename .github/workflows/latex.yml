@@ -16,14 +16,7 @@ jobs:
       - name: Build LaTeX document
         run: |
           docker pull rearrangedletters/latex
-          docker run -v $PWD:/latex -v $PWD:$PWD rearrangedletters/latex pdflatex latex/main.tex
-          docker cp rearrangedletters/latex:main.pdf .
-
-      - name: See PDF output
-        run: pwd
-             ls -l
-             cd /latex/
-             ls -l
+          docker run --rm -v $PWD:/latex -v $PWD:$PWD rearrangedletters/latex sh -c "pdflatex --output-directory=/latex /latex/main.tex && cp /latex/main.pdf ."
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v2
