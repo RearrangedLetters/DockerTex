@@ -15,11 +15,13 @@ jobs:
 
       - name: Set up build environment
         run: |
-          echo "DEBIAN_FRONTEND=noninteractive" >> $GITHUB_ENV
           docker run --mount src=$GITHUB_WORKSPACE,target=/repo,type=bind \
             -w /repo \
             ubuntu:22.04 \
-            bash -c 'apt-get update && apt-get install -y texlive-latex-extra'
+            bash -c 'apt-get update && \
+                     apt-get install -y texlive-full tzdata && \
+                     ln -fs /usr/share/zoneinfo/Asia/Kolkata /etc/localtime && \
+                     dpkg-reconfigure --frontend noninteractive tzdata'
 
       - name: Build LaTeX document
         run: |
