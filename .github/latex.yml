@@ -1,0 +1,39 @@
+name: LaTeX Build
+
+on:
+  push:
+    branches:
+      - main  # Trigger this workflow on push event on main branch
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Build LaTeX document
+      run: |
+        docker run --mount src=$GITHUB_WORKSPACE,target=/repo,type=bind \
+            -w /repo \
+            bash -c 'apt-get update && apt-get install -y \
+            texlive-latex-base \
+            texlive-latex-recommended \
+            texlive-fonts-recommended \
+            textlive-latex-extra \
+            texlive-fonts-extra \
+            texlive-lang-english && \
+            pdflatex -output-directory=/repo main.tex'
+
+    # - name: Fix versions of specific LaTeX packages
+    # run: |
+    #    docker run --mount src=$GITHUB_WORKSPACE,target=/repo,type=bind \
+    #        -w /repo \
+    #        bash -c 
+
+    - name: Upload PDF artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: compiled-pdf
+        path: main.pdf
