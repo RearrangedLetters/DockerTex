@@ -19,7 +19,9 @@ jobs:
           docker run --rm -v $PWD:/latex -v $PWD:/latex rearrangedletters/latex pdflatex latex/main.tex
 
       - name: See PDF output
-        run: pwd && cd latex/ && ls -a
+        run: pwd
+             cd /latex/
+             ls -a
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v2
