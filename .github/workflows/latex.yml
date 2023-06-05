@@ -15,6 +15,7 @@ jobs:
 
       - name: Set up build environment
         run: |
+          echo "DEBIAN_FRONTEND=noninteractive" >> $GITHUB_ENV
           docker run --mount src=$GITHUB_WORKSPACE,target=/repo,type=bind \
             -w /repo \
             ubuntu:22.04 \
