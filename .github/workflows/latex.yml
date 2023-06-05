@@ -16,7 +16,8 @@ jobs:
       - name: Build LaTeX document
         run: |
           docker pull rearrangedletters/latex
-          docker run --rm -v $PWD:/latex -v $PWD:/latex rearrangedletters/latex pdflatex latex/main.tex
+          docker run -v $PWD:/latex rearrangedletters/latex pdflatex latex/main.tex
+          docker cp rearrangedletters/latex:/latex/main.pdf .
 
       - name: See PDF output
         run: pwd
@@ -28,5 +29,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: main.pdf
-          path: ./latex/main.pdf
+          path: main.pdf
 
