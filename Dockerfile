@@ -1,6 +1,5 @@
-FROM debian:latest
+FROM ubuntu:22.04
 
-# Install essential packages
 RUN apt-get update && apt-get install -y \
     texlive-latex-base \
     texlive-latex-recommended \
@@ -8,6 +7,8 @@ RUN apt-get update && apt-get install -y \
     texlive-latex-extra \
     texlive-fonts-extra \
     texlive-lang-german \
-    git \
-    make
+    texlive-lang-english
+
+# Fix package versions here, e.g.:
+# RUN tlmgr install latexmk==4.76
 
