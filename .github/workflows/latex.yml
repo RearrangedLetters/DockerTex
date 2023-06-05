@@ -16,7 +16,7 @@ jobs:
       - name: Build LaTeX document
         run: |
           docker pull rearrangedletters/latex
-          docker run --rm -v $PWD:/latex rearrangedletters/latex latex/pdflatex main.tex
+          docker run --rm -v $PWD:/latex rearrangedletters/latex pdflatex latex/main.tex
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v2
