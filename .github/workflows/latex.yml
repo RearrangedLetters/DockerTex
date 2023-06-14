@@ -36,3 +36,4 @@ jobs:
           git config --local user.name "GitHub Action"
           git add main.pdf
           git commit -m "Auto-commit PDF file"
+          git push origin main
