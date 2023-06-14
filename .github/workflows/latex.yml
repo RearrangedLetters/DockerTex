@@ -33,6 +33,8 @@ jobs:
       - name: Commit PDF
         uses: EndBug/add-and-commit@v9
         with:
-          default_author: github_actions
+          author_name: RearrangedLetters
+          author_email: RobinLink@ProtonMail.com
           message: "Auto update main.pdf"
           add: "main.pdf"
+          push: true
