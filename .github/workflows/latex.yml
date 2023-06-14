@@ -30,3 +30,9 @@ jobs:
           name: main.pdf
           path: main.pdf
 
+      - name: Commit PDF file
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add main.pdf
+          git commit -m "Auto-commit PDF file"
