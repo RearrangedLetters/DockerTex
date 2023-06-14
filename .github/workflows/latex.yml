@@ -17,6 +17,9 @@ jobs:
         run: |
           docker pull rearrangedletters/latex-full
           docker run -d -t --name=texy -v $PWD:/latex rearrangedletters/latex-full
+          # Remove and re-install the packages with the desired version here.
+          docker exec -d texy pdflatex --output-directory=/latex /latex/main.tex
+          docker exec -d texy pdflatex --output-directory=/latex /latex/main.tex
           docker exec -d texy pdflatex --output-directory=/latex /latex/main.tex
           docker exec -d texy cp /latex/main.pdf
           # docker run $PWD:/latex rearrangedletters/latex-full sh -c "pdflatex --output-directory=/latex /latex/main.tex && cp /latex/main.pdf ."
