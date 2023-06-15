@@ -15,7 +15,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Documents to compile
+      - name: Build LaTex documents
         run: |
           # List files that shall be compiled. The ".tex" _must_ be ommited.
           # Paths are relative to the project root.
@@ -38,15 +38,13 @@ jobs:
 
           # Generate .pdf filenames relative to BPATH used for creating the
           # outputs, i.e. the PDFs and the artifacts & the release.
-          OUPUT_FILES=()
+          OUTPUT_FILES=()
           for texfile in "${TEX_FILES[@]}"; do
             OUTPUT_FILES+=("${BPATH}/${texfile}.pdf")
           done
 
-      - name: Build LaTeX documents
-        run: |
           docker pull rearrangedletters/latex-full
-          docker run -dt --name=texy --mount type=bind,source="${PWD}",target="/latex" rearrangedletters/latex-full
+          docker run -dt --name=texy --mount type=bind,source="${PWD}",target="${BPATH}" rearrangedletters/latex-full
           
           # Remove and re-install the packages with the desired version here.
           # The pattern is as follows:
