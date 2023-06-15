@@ -30,7 +30,7 @@ jobs:
           for texfile in "${TEX_FILES[@]}"; do
             FILE="${BPATH}/${texfile}.tex"
             COMPILE_FILES+=("$FILE")
-            if ! [[ -f "$FILE" ]]; then
+            if ! [[ -f "${texfile}.tex" ]]; then
                 echo "Warning, ${FILE} is not a valid file or path to a .tex file!"
             fi
             echo "add to compile files: $FILE"
