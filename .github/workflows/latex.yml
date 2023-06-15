@@ -72,7 +72,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: pdf-artifacts
-          path: "${BPATH}/out/*.pdf"
+          path: "${BPATH}/out/"
 
       - name: Publish PDFs as a release
         uses: ncipollo/release-action@v1
