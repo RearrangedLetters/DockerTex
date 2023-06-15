@@ -65,7 +65,8 @@ jobs:
           done
 
           echo "look here ma!"
-          ls "/latex/out"
+          ls
+          ls "/out"
 
           # Move compiled PDFs outside the container.
           for output in "${OUTPUT_FILES[@]}"
