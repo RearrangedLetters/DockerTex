@@ -74,12 +74,12 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: pdf-artifacts
-          path: "${PWD}/out/"
+          path: "${BPATH}/out/"
 
       - name: Publish PDFs as a release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "${OUTPUT_FILES[*]}"
+          artifacts: "${PWD}/out/"
           makeLatest: true
           tag: "latest"
           allowUpdates: true
