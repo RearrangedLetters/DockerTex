@@ -78,7 +78,7 @@ jobs:
       - name: Publish PDFs as a release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "out/"
+          artifacts: "out/*.pdf"
           makeLatest: true
           tag: "latest"
           allowUpdates: true
