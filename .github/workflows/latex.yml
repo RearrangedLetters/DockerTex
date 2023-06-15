@@ -15,27 +15,61 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Documents to compile
+        run: |
+          # List files that shall be compiled. The ".tex" _must_ be ommited.
+          # Paths are relative to the project root.
+          TEX_FILES=("main" "subfolder/extra")
+
+          # This is the bind path inside the container.
+          BPATH="/latex/"
+
+          # Generate .tex filenames relative to BPATH.
+          # This usualy may not be changed manually.
+          COMPILE_FILES=()
+          for texfile in "${TEX_FILES[@]}"
+          do
+            COMPILE_FILES+=("${BPATH}${texfile}.tex")
+          done
+
+          # Generate .pdf filenames relative to BPATH used for creating the
+          # outputs, i.e. the PDFs and the artifacts & the release.
+          OUPUT_FILES=()
+          for texfile in "${TEX_FILES[@]}"
+          do
+            OUTPUT_FILES+=("${BPATH}${texfile}.pdf")
+          done
+
       - name: Build LaTeX document
         run: |
           docker pull rearrangedletters/latex-full
-          docker run -d -t --name=texy -v $PWD:/latex rearrangedletters/latex-full
+          docker run -d -t --name=texy -v $PWD:${BPATH} rearrangedletters/latex-full
           # Remove and re-install the packages with the desired version here.
-          docker exec -d texy pdflatex --output-directory=/latex /latex/main.tex
-          docker exec -d texy pdflatex --output-directory=/latex /latex/main.tex
-          docker exec -d texy pdflatex --output-directory=/latex /latex/main.tex
-          docker exec -d texy cp /latex/main.pdf
-          # docker run $PWD:/latex rearrangedletters/latex-full sh -c "pdflatex --output-directory=/latex /latex/main.tex && cp /latex/main.pdf ."
+
+          for file in "${COMPILE_FILES[@]}"
+          do
+            for i in {1..3} # This runs the compilation 3 times
+              do
+                docker exec -d texy pdflatex --output-directory=${BPATH} $file
+              done
+          done
+
+          # Move compiled PDFs outside the container.
+          for output in "${OUTPUT_FILES[@]}"
+          do
+            docker exec -d texy cp "$output"
+          done
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v2
         with:
-          name: main.pdf
-          path: main.pdf
+          name: pdf-artifacts
+          path: ${OUTPUT_FILES[@]}
 
-      - name: Publish PDF as Release
+      - name: Publish PDFs as a release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "main.pdf"
+          artifacts: ${OUTPUT_FILES[@]}
           makeLatest: true
           tag: "latest"
           allowUpdates: true
