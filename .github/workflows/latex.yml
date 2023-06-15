@@ -22,13 +22,13 @@ jobs:
           TEX_FILES=("main" "subfolder/extra")
 
           # This is the bind path inside the container.
-          BPATH=""
+          BPATH="/latex"
 
           # Generate .tex filenames relative to BPATH.
           # This usualy may not be changed manually.
           COMPILE_FILES=()
           for texfile in "${TEX_FILES[@]}"; do
-            FILE="${BPATH}${texfile}.tex"
+            FILE="${BPATH}/${texfile}.tex"
             COMPILE_FILES+=("$FILE")
             if ! [[ -f "$FILE" ]]; then
                 echo "Error, ${FILE} is not a valid file or path to a .tex file!"
@@ -39,16 +39,20 @@ jobs:
           # outputs, i.e. the PDFs and the artifacts & the release.
           OUPUT_FILES=()
           for texfile in "${TEX_FILES[@]}"; do
-            OUTPUT_FILES+=("${BPATH}${texfile}.pdf")
+            OUTPUT_FILES+=("${BPATH}/${texfile}.pdf")
           done
 
       - name: Build LaTeX documents
         run: |
           docker pull rearrangedletters/latex-full
-          # echo "this is an echo: ${PWD}:${BPATH::-1}"
-          # mkdir "${BPATH::-1}"
           docker run -dt --name=texy --mount type=bind,source="${PWD}",target="/latex" rearrangedletters/latex-full
+          
           # Remove and re-install the packages with the desired version here.
+          # The pattern is as follows:
+          # sudo tlmgr remove <package-name>
+          # sudo tlmgr install <package-name>=<version>
+          # It is essential to first remove the packge, because if the given version
+          # is older than the currently installed one, then tlmgr will not downgrade it.
 
           for file in "${COMPILE_FILES[@]}"
           do
