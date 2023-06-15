@@ -45,7 +45,7 @@ jobs:
       - name: Build LaTeX documents
         run: |
           docker pull rearrangedletters/latex-full
-          echo ${PWD}:${BPATH::-1}
+          echo "this is an echo: ${PWD}:${BPATH::-1}">>$GITHUB_OUTPUT
           docker run -d -t --name=texy -v ${PWD}:${BPATH::-1} rearrangedletters/latex-full
           # Remove and re-install the packages with the desired version here.
 
