@@ -47,11 +47,7 @@ jobs:
           docker pull rearrangedletters/latex-full
           # echo "this is an echo: ${PWD}:${BPATH::-1}"
           # mkdir "${BPATH::-1}"
-          docker run -d \
-             -t \
-             --name=texy \ 
-             --mount type=bind,source="${PWD}",target="/latex" \
-             rearrangedletters/latex-full
+          docker run -dt --name=texy --mount type=bind,source="${PWD}",target="/latex" rearrangedletters/latex-full
           # Remove and re-install the packages with the desired version here.
 
           for file in "${COMPILE_FILES[@]}"
