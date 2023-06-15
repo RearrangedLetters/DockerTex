@@ -75,7 +75,7 @@ jobs:
           
           echo "look here ma repo!"
           ls
-          ls /out
+          ls out
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v3
@@ -86,7 +86,7 @@ jobs:
       - name: Publish PDFs as a release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "${PWD}/out/"
+          artifacts: "out/"
           makeLatest: true
           tag: "latest"
           allowUpdates: true
