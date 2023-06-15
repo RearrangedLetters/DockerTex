@@ -36,3 +36,5 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "main.pdf"
+          makeLatest: true
+          tag: "latest"
