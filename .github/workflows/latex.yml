@@ -27,23 +27,25 @@ jobs:
           # Generate .tex filenames relative to BPATH.
           # This usualy may not be changed manually.
           COMPILE_FILES=()
-          for texfile in "${TEX_FILES[@]}"
-          do
-            COMPILE_FILES+=("${BPATH}${texfile}.tex")
+          for texfile in "${TEX_FILES[@]}"; do
+            FILE=("${BPATH}${texfile}.tex")
+            COMPILE_FILES+="$FILE"
+            if ! [[ -f "$FILE" ]]; then
+                echo "Error, ${FILE} is not a valid file/path to a .tex file!"
+            fi
           done
 
           # Generate .pdf filenames relative to BPATH used for creating the
           # outputs, i.e. the PDFs and the artifacts & the release.
           OUPUT_FILES=()
-          for texfile in "${TEX_FILES[@]}"
-          do
+          for texfile in "${TEX_FILES[@]}"; do
             OUTPUT_FILES+=("${BPATH}${texfile}.pdf")
           done
 
       - name: Build LaTeX document
         run: |
           docker pull rearrangedletters/latex-full
-          docker run -d -t --name=texy -v $PWD:${BPATH} rearrangedletters/latex-full
+          docker run -d -t --name=texy -v $PWD:${BPATH::-1} rearrangedletters/latex-full
           # Remove and re-install the packages with the desired version here.
 
           for file in "${COMPILE_FILES[@]}"
