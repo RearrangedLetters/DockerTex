@@ -38,3 +38,4 @@ jobs:
           artifacts: "main.pdf"
           makeLatest: true
           tag: "latest"
+          # 
