@@ -72,12 +72,12 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: pdf-artifacts
-          path: "${{ join(OUTPUT_FILES, ',') }}"
+          path: "${OUTPUT_FILES[*]}"
 
       - name: Publish PDFs as a release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "${{ join(OUTPUT_FILES, ',') }}"
+          artifacts: "${OUTPUT_FILES[*]}"
           makeLatest: true
           tag: "latest"
           allowUpdates: true
