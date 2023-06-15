@@ -68,10 +68,12 @@ jobs:
           # Move compiled PDFs outside the container.
           docker exec -d texy cp "${BPATH}/out"
 
-          echo "look here ma!"
 
+          echo "look here ma, docker:!"
           docker exec texy ls "${BPATH}/out"
           docker exec texy ls /latex/out
+          
+          echo "look here ma repo!"
           ls
           ls /out
 
