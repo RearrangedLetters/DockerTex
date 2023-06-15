@@ -64,21 +64,18 @@ jobs:
             done
           done
 
+          # Move compiled PDFs outside the container.
+          docker exec -d texy cp "${BPATH}/out"
+
           echo "look here ma!"
           ls
-          ls "/out"
-
-          # Move compiled PDFs outside the container.
-          for output in "${OUTPUT_FILES[@]}"
-          do
-            docker exec -d texy cp "${BPATH}/out"
-          done
+          ls /out
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v3
         with:
           name: pdf-artifacts
-          path: "${BPATH}/out/"
+          path: "out/"
 
       - name: Publish PDFs as a release
         uses: ncipollo/release-action@v1
