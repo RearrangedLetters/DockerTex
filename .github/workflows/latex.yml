@@ -54,6 +54,8 @@ jobs:
           # It is essential to first remove the packge, because if the given version
           # is older than the currently installed one, then tlmgr will not downgrade it.
 
+          docker exec -d texy mkdir "${BPATH}/out"
+
           for file in "${COMPILE_FILES[@]}"
           do
             for i in {1..3}; do   # This runs the compilation 3 times
@@ -65,14 +67,14 @@ jobs:
           # Move compiled PDFs outside the container.
           for output in "${OUTPUT_FILES[@]}"
           do
-            docker exec -d texy cp "$output"
+            docker exec -d texy cp "${BPATH}/out"
           done
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v3
         with:
           name: pdf-artifacts
-          path: "${BPATH}/out/"
+          path: "${PWD}/out/"
 
       - name: Publish PDFs as a release
         uses: ncipollo/release-action@v1
