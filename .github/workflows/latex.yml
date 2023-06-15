@@ -46,7 +46,7 @@ jobs:
         run: |
           docker pull rearrangedletters/latex-full
           echo $PWD:${BPATH::-1}
-          docker run -d -t --name=texy -v $PWD:${BPATH::-1} rearrangedletters/latex-full
+          docker run -d -t --name=texy -v ${PWD}:${BPATH::-1} rearrangedletters/latex-full
           # Remove and re-install the packages with the desired version here.
 
           for file in "${COMPILE_FILES[@]}"
