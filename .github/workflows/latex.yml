@@ -68,6 +68,9 @@ jobs:
           docker exec -d texy cp "${BPATH}/out"
 
           echo "look here ma!"
+
+          docker exec texy ls "${BPATH}/out"
+          docker exec texy ls /latex/out
           ls
           ls /out
 
