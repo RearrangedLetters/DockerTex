@@ -54,6 +54,7 @@ jobs:
           # It is essential to first remove the packge, because if the given version
           # is older than the currently installed one, then tlmgr will not downgrade it.
 
+          mkdir ./out
           docker exec -d texy mkdir "${BPATH}/out"
 
           for file in "${COMPILE_FILES[@]}"
