@@ -58,7 +58,7 @@ jobs:
           do
             for i in {1..3}; do   # This runs the compilation 3 times
               echo "this is another echo: $file"
-              docker exec -d texy pdflatex --output-directory="$BPATH" "$file"
+              docker exec -d texy pdflatex --output-directory="${BPATH}/out" "$file"
             done
           done
 
@@ -69,10 +69,10 @@ jobs:
           done
 
       - name: Upload PDF artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: pdf-artifacts
-          path: "${OUTPUT_FILES[*]}"
+          path: "${BPATH}/out/*.pdf"
 
       - name: Publish PDFs as a release
         uses: ncipollo/release-action@v1
