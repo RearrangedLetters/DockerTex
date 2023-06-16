@@ -18,9 +18,11 @@ jobs:
 
       - name: Build LaTex documents
         run: |
-          # List files that shall be compiled. The ".tex" _must_ be ommited.
+          # List files that shall be compiled.
           # Paths are relative to the project root.
-          TEX_FILES=("main" "subfolder/extra")
+          TEX_FILES=("main" \
+                     "subfolder/extra" \
+                    )
 
           # This is the bind path inside the container.
           BPATH="/latex"
@@ -29,7 +31,7 @@ jobs:
           # This usualy may not be changed manually.
           COMPILE_FILES=()
           for texfile in "${TEX_FILES[@]}"; do
-            FILE="${BPATH}/${texfile}.tex"
+            FILE="${BPATH}/${texfile}"
             COMPILE_FILES+=("$FILE")
             if ! [[ -f "${texfile}.tex" ]]; then
                 echo "Warning, ${FILE} is not a valid file or path to a .tex file!"
