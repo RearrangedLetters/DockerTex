@@ -36,13 +36,6 @@ jobs:
             echo "add to compile files: $FILE"
           done
 
-          # Generate .pdf filenames relative to BPATH used for creating the
-          # outputs, i.e. the PDFs and the artifacts & the release.
-          OUTPUT_FILES=()
-          for texfile in "${TEX_FILES[@]}"; do
-            OUTPUT_FILES+=("${BPATH}/${texfile}.pdf")
-          done
-
           docker pull rearrangedletters/latex-full
           docker run -dt --name=texy --mount type=bind,source="${PWD}",target="${BPATH}" rearrangedletters/latex-full
           
@@ -69,7 +62,7 @@ jobs:
           echo "look here ma repo!"
           ls out/
 
-      - name: Upload PDF artifact
+      - name: Upload compilation artifacts
         uses: actions/upload-artifact@v3
         with:
           name: pdf-artifacts
